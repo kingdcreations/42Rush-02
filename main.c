@@ -39,6 +39,7 @@ char *ft_getnb(int fd)
 		size = read(fd, c, 1);
 		i++;
 	}
+	//printf("%s. ", str);
 	return(str);
 }
 
@@ -57,6 +58,7 @@ char *ft_getval(int fd, char *c)
 		size = read(fd, c, 1);
 		i++;
 	}
+	//printf("%s\n", str);
 	return(str);
 }
 
@@ -75,7 +77,7 @@ t_list *process(char *file)
 	if (fd == -1)
 		exit (1);
 	i = 0;
-	while (i < 30)
+	while (i < 32)
 	{
 		tab[i].nb = atoi(ft_getnb(fd));
 		size = read(fd, c, 1);
@@ -92,7 +94,7 @@ t_list *process(char *file)
 	return (tab);
 }
 
-void ft_print(int n, t_list *tab)
+void ft_print(unsigned int n, t_list *tab)
 {
 	int i;
 
@@ -105,13 +107,49 @@ void ft_print(int n, t_list *tab)
 			ft_putstr(tab[i].val);
 		write(1, " ", 1);
 	}
-	else
+	else if(n < 100)
 	{
 		while (n >= tab[i + 1].nb)
 			i++;
 		ft_putstr(tab[i].val);
 		write(1, " ", 1);
 		ft_print(n % 10, tab);
+	}
+	else if(n < 1000)
+	{	
+		ft_print(n / 100, tab);
+		while (n >= tab[i + 1].nb)
+			i++;
+		ft_putstr(tab[i].val);
+		write(1, " ", 1);
+		ft_print(n % 100, tab);
+	}
+	else if(n < 1000000)
+	{	
+		ft_print(n / 1000, tab);
+		while (n >= tab[i + 1].nb)
+			i++;
+		ft_putstr(tab[i].val);
+		write(1, " ", 1);
+		ft_print(n % 1000, tab);
+	}
+	else if(n < 1000000000)
+	{	
+		ft_print(n / 1000000, tab);
+		while (n >= tab[i + 1].nb)
+			i++;
+		ft_putstr(tab[i].val);
+		write(1, " ", 1);
+		ft_print(n % 1000000, tab);
+	}
+	else
+	{	
+		ft_print(n / 1000000000, tab);
+		while (tab[i+1].nb <= n)
+			i++;
+		ft_putstr(tab[i].val);
+		write(1, " ", 1);
+		ft_print(n % 1000000000, tab);
 	}
 }
 
