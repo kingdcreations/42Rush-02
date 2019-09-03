@@ -13,6 +13,8 @@ char	*ft_getnb(int fd)
 		exit(1);
 	i = 0;
 	read(fd, c, 1);
+	while (c[0] == '\n')
+		read(fd, c, 1);
 	while (c[0] >= '0' && c[0] <= '9')
 	{
 		str[i] = c[0];
@@ -45,6 +47,7 @@ t_list	*process(char *file)
 	int	fd;
 	char	c[1];
 	t_list	*tab;
+	char *tmp;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1 || !(tab = malloc(sizeof(t_list) * 33)))
@@ -60,7 +63,9 @@ t_list	*process(char *file)
 			read(fd, c, 1);
 		while (c[0] == ' ')
 			read(fd, c, 1);
-		tab[i].val = ft_strdup(ft_getval(fd, c));
+		tmp = ft_getval(fd, c);
+		tab[i].val = ft_strdup(tmp);
+		free(tmp);
 		i++;
 	}
 	close(fd);

@@ -7,19 +7,21 @@ char	*ft_strdup(char *src)
 {
 	int		i;
 	int		len;
-	char	*str;
+	char		*dst;
 
 	len = 0;
-	while (src[len])
+	while (src[len] != '\0')
 		len++;
-	str = (char*)malloc(sizeof(*str) * (len + 1));
+	if (!(dst = (char *)malloc(sizeof(char) * (len + 1))))
+		return (0);
 	i = 0;
 	while (i < len)
 	{
-		str[i] = src[i];
+		dst[i] = src[i];
 		i++;
 	}
-	return (str);
+	dst[i] = '\0';
+	return (dst);
 }
 
 int	ft_atoi(const char *str)
